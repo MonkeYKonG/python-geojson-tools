@@ -1,2 +1,2 @@
 # python-geojson-tools
-Package to manage geojson with pytthon
+Package to manage geojson with python

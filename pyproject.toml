@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "python-geojson-tools"
+version = "0.0.1"
+description = "Tools to manage geojson"
+authors = ["Alexis Craye <alexis.craye@gmail.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+shapely = "^2.0.1"
+geopy = "^2.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
