@@ -1,4 +1,5 @@
 import abc
+import json
 
 from geopy import distance
 from shapely import geometry
@@ -7,7 +8,7 @@ from .base_entity import BaseEntity
 from .constants import EntityTypes
 
 
-class BaseGeometry(BaseEntity):
+class BaseGeometry(BaseEntity, abc.ABC):
     def __init__(self, entity_type, geom):
         super().__init__(entity_type)
         self._geometry = geom
@@ -15,11 +16,25 @@ class BaseGeometry(BaseEntity):
     def to_geojson(self) -> dict:
         return self._geometry.__geo_interface__
 
+    @classmethod
+    def from_dict(cls, obj: dict):
+        obj_coordinate = obj.get('coordinates')
+        return cls(obj_coordinate)
+
+    @classmethod
+    def from_string(cls, string: str):
+        obj = json.loads(string)
+        return cls.from_dict(obj)
+
+    @classmethod
+    def from_file(cls, path: str):
+        obj = json.load(open(path))
+        return cls.from_dict(obj)
+
 
 class Point(BaseGeometry):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, point):
+        self.x, self.y = point
         super().__init__(
             EntityTypes.point,
             geometry.Point(self.x, self.y),
@@ -61,5 +76,8 @@ class MultiPolygon(BaseGeometry):
         self.polygons = polygons
         super().__init__(
             EntityTypes.multi_polygon,
-            geometry.MultiPolygon(self.polygons),
+            geometry.MultiPolygon((
+                geometry.Polygon(polygon[0], holes=polygon[1:])
+                for polygon in self.polygons
+            )),
         )
