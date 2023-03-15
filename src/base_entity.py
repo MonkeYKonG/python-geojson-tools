@@ -6,7 +6,21 @@ from .constants import EntityTypes
 
 class BaseEntity(abc.ABC):
     def __init__(self, entity_type: EntityTypes):
-        self.type = entity_type
+        self.type = entity_type.value
+
+    @classmethod
+    def from_dict(cls, obj: dict):
+        raise NotImplementedError()
+
+    @classmethod
+    def from_string(cls, string: str):
+        obj = json.loads(string)
+        return cls.from_dict(obj)
+
+    @classmethod
+    def from_file(cls, path: str):
+        obj = json.load(open(path))
+        return cls.from_dict(obj)
 
     def to_geojson(self) -> dict:
         raise NotImplementedError()
