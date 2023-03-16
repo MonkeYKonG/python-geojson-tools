@@ -1,16 +1,19 @@
+from typing import Union
+
 from . import errors
 from .base_entity import BaseEntity
 from .constants import EntityTypes
+from .geometries import BaseGeometry
 from .geometry_tools import load_geometry
 
 
 class Feature(BaseEntity):
-    def __init__(self, geometry: dict, properties: dict = None):
+    def __init__(self, geometry: Union[dict, BaseGeometry], properties: dict = None):
         super().__init__(EntityTypes.feature)
         if properties is None:
             properties = dict()
         self.properties = properties
-        self.geometry = load_geometry(geometry)
+        self.geometry = geometry if isinstance(geometry, BaseGeometry) else load_geometry(geometry)
 
     @classmethod
     def from_dict(cls, obj: dict):

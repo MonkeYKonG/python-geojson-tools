@@ -26,6 +26,7 @@ class TestFeatureCollection(TestCase):
     def test_constructor(self):
         feature_collection = FeatureCollection(self.features_data)
         self._test_feature_collection_values(feature_collection)
+        # TODO: Test with Feature into list
 
     def test_from_dict(self):
         feature_collection = FeatureCollection.from_dict(self.data)
@@ -48,3 +49,23 @@ class TestFeatureCollection(TestCase):
             json.dumps(feature_collection.to_geojson()),
             json.dumps(self.data),
         )
+
+    def test_merge_features(self):
+        # TODO
+        pass
+
+    def test_append(self):
+        # TODO
+        pass
+
+    def test_delete(self):
+        # TODO
+        pass
+
+    def test_add_operator(self):
+        # TODO
+        pass
+
+    def test_iter_operator(self):
+        # TODO
+        pass
