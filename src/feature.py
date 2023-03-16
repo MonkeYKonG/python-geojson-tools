@@ -24,5 +24,5 @@ class Feature(BaseEntity):
         return {
             'type': self.type,
             'properties': self.properties,
-            'geometry': self.geometry.to_geojson
+            'geometry': self.geometry.to_geojson()
         }

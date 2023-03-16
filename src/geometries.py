@@ -28,7 +28,8 @@ class BaseGeometry(BaseEntity, abc.ABC):
 
     @classmethod
     def from_file(cls, path: str):
-        obj = json.load(open(path))
+        with open(path) as file:
+            obj = json.load(file)
         return cls.from_dict(obj)
 
 

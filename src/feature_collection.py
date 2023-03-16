@@ -22,7 +22,7 @@ class FeatureCollection(BaseEntity):
     def to_geojson(self) -> dict:
         return {
             'type': self.type,
-            'features': self.features
+            'features': [feature.to_geojson() for feature in self.features]
         }
 
     def merge_features(self):

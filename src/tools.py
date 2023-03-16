@@ -12,6 +12,16 @@ ENTITY_CLASSES = {
 }
 
 
+def load_file(path: str):
+    with open(path) as file:
+        return json.load(file)
+
+
+def load_file_content(path: str):
+    with open(path) as file:
+        return file.read()
+
+
 def load(obj: dict):
     obj_type = obj.get('type')
     if obj_type is None:
@@ -27,5 +37,6 @@ def load_from_string(string_content: str):
 
 
 def load_from_file(path: str):
-    file_content = json.load(open(path))
+    with open(path) as file:
+        file_content = json.load(file)
     return load(file_content)

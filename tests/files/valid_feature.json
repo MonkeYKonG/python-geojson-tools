@@ -1,6 +1,9 @@
 {
   "type": "Feature",
-  "properties": {},
+  "properties": {
+    "hello": "world",
+    "foo": "bar"
+  },
   "geometry": {
     "type": "Point",
     "coordinates": [
