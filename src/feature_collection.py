@@ -1,14 +1,17 @@
+from typing import Union
+
 from . import errors
 from .base_entity import BaseEntity
 from .constants import EntityTypes
 from .feature import Feature
+from .geometries import BaseGeometry
 
 
 class FeatureCollection(BaseEntity):
     def __init__(self, features: list):
         super().__init__(EntityTypes.feature_collection)
         self.features = [
-            Feature.from_dict(feature)
+            feature if isinstance(feature, Feature) else Feature.from_dict(feature)
             for feature in features
         ]
 
@@ -26,4 +29,25 @@ class FeatureCollection(BaseEntity):
         }
 
     def merge_features(self):
+        """Merge all features together then return Feature with"""
         pass
+
+    def append(self, entity: BaseEntity):
+        """Add entity to features"""
+        if isinstance(entity, FeatureCollection):
+            self.features += entity.features
+        elif isinstance(entity, Feature):
+            self.features.append(entity)
+        elif isinstance(entity, BaseGeometry):
+            self.features.append(Feature(entity))
+        return self
+
+    def delete(self, index):
+        """Remove feature at index"""
+        self.features.pop(index)
+
+    def __add__(self, other: BaseEntity):
+        return self.append(other)
+
+    def __iter__(self):
+        return self.features

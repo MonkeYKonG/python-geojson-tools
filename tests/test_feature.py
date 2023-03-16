@@ -26,6 +26,7 @@ class TestFeatureCollection(TestCase):
     def test_constructor(self):
         feature = Feature(self.geometry_data, self.properties_data)
         self._test_feature_values(feature)
+        # TODO: Test with baseGeometry
 
     def test_from_dict(self):
         feature = Feature.from_dict(self.data)
